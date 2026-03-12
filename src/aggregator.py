@@ -37,7 +37,6 @@ class Aggregator():
         tasks: list[Task] = self.aggregate_tasks()
         logger.info("Начало обработки задач")
         for task in tasks:
-            task.status = StatusEnum.PROCESSING
             self.handle_task(task)
         logger.info("Обработка задач окончена")
 
@@ -67,8 +66,13 @@ class Aggregator():
 
         :param task: Задача
         """
+        if task.status != StatusEnum.NOT_STARTED:
+            raise ValueError("Нельзя обработать задачу, которая уже начата или завершена")
+
+        task.status = StatusEnum.PROCESSING
         # проверка payload
         if not isinstance(task.payload, str):
+            task.status = StatusEnum.CANCELLED
             raise RuntimeError("payload неподходящего типа")
         print(task)
         task.status = StatusEnum.COMPLETED
