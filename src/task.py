@@ -20,7 +20,7 @@ class Task():
                  payload: object,
                  priority: int = DEFAULT_PRIORITY,
                  ) -> None:
-        self.id = self.format_id(id)
+        self.id = id
         self.payload = payload
         if priority < 0:
             raise ValueError("Приоритет не может быть отрицательным")
@@ -29,7 +29,7 @@ class Task():
         self._time_created: datetime = datetime.now()
 
     def __str__(self):
-        return f"Task(id='{self.id}', payload={repr(self.payload)}, priority={self.priority}, status={repr(self.status.value)}, time_created='{str(self.time_created)}')"
+        return f"Task(id='{self.format_id(self.id)}', payload={repr(self.payload)}, priority={self.priority}, status={repr(self.status.value)}, time_created='{str(self.time_created)}')"
 
     @staticmethod
     def format_id(id: int) -> str:
