@@ -1,6 +1,6 @@
 import logging
 
-from src.task import Task
+from src.task import Task, StatusEnum
 from src.source import Source
 
 logger = logging.getLogger(__name__)
@@ -13,6 +13,7 @@ class Aggregator():
 
     def __init__(self) -> None:
         self.sources: list[Source] = []
+        self.id_count = 0
 
     def bind_source(self, source: Source) -> None:
         """
@@ -36,6 +37,7 @@ class Aggregator():
         tasks: list[Task] = self.aggregate_tasks()
         logger.info("Начало обработки задач")
         for task in tasks:
+            task.status = StatusEnum.PROCESSING
             self.handle_task(task)
         logger.info("Обработка задач окончена")
 
@@ -48,7 +50,14 @@ class Aggregator():
         logger.info("Запуск получения задач из источников")
         tasks: list[Task] = []
         for source in self.sources:
-            tasks.extend(source.get_tasks())
+            for payload in source.get_tasks():
+                # создание класса Task для каждой задачи
+                self.id_count += 1
+                task = Task(
+                    id=self.id_count,
+                    payload=payload,
+                )
+                tasks.append(task)
         logger.info(f"Сбор задач завершен. Количество задач: {len(tasks)}")
         return tasks
 
@@ -60,5 +69,6 @@ class Aggregator():
         """
         # проверка payload
         if not isinstance(task.payload, str):
-            raise RuntimeError("Payload неподходящего типа")
+            raise RuntimeError("payload неподходящего типа")
         print(task)
+        task.status = StatusEnum.COMPLETED

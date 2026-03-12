@@ -1,14 +1,11 @@
 [
     {
-        "id": "json_1",
-        "payload": "Json task 1"
+        "payload": "json payload 1"
     },
     {
-        "id": "json_2",
-        "payload": "Json task 2"
+        "payload": "json payload 2"
     },
     {
-        "id": "json_3",
-        "payload": "Json task 3"
+        "payload": "json payload 3"
     }
 ]
