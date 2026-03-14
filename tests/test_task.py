@@ -12,6 +12,12 @@ def test_task():
             payload="test",
             priority=-1
         )
+    # id
+    with pytest.raises(ValueError):
+        _ = Task(
+            id=-1,
+            payload="test",
+        )
     task = Task(
         id=1,
         payload="test",
@@ -20,9 +26,11 @@ def test_task():
     with pytest.raises(ValueError):
         task.priority = -1
 
-    # time_created non-data descriptor
+    # non-data descriptor
     with pytest.raises(AttributeError):
         task.time_created = datetime.now()
+    with pytest.raises(AttributeError):
+        task.id = 10
 
     # status
     task.status = StatusEnum.PROCESSING

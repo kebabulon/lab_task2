@@ -20,7 +20,9 @@ class Task():
                  payload: object,
                  priority: int = DEFAULT_PRIORITY,
                  ) -> None:
-        self.id = id
+        if id < 0:
+            raise ValueError("id не может быть отрицательным")
+        self._id = id
         self.payload = payload
         if priority < 0:
             raise ValueError("Приоритет не может быть отрицательным")
@@ -34,6 +36,12 @@ class Task():
     @staticmethod
     def format_id(id: int) -> str:
         return f"task_{id}"
+
+    # id является примером non-data descriptor
+    # имеет только __get__
+    @property
+    def id(self) -> int:
+        return self._id
 
     # priority является примером data descriptor
     # имеет __get__ и __set__
