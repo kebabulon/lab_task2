@@ -23,7 +23,7 @@ class Task():
         if id < 0:
             raise ValueError("id не может быть отрицательным")
         self._id = id
-        self.payload = payload
+        self._payload = payload
         if priority < 0:
             raise ValueError("Приоритет не может быть отрицательным")
         self._priority = priority
@@ -43,6 +43,12 @@ class Task():
     def id(self) -> int:
         return self._id
 
+    # payload является примером non-data descriptor
+    # имеет только __get__
+    @property
+    def payload(self) -> object:
+        return self._payload
+
     # priority является примером data descriptor
     # имеет __get__ и __set__
     @property
@@ -61,6 +67,8 @@ class Task():
     def time_created(self) -> datetime:
         return self._time_created
 
+    # status является примером data descriptor
+    # имеет __get__ и __set__
     @property
     def status(self) -> StatusEnum:
         return self._status

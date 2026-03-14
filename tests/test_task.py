@@ -31,6 +31,8 @@ def test_task():
         task.time_created = datetime.now()
     with pytest.raises(AttributeError):
         task.id = 10
+    with pytest.raises(AttributeError):
+        task.payload = "test payload"
 
     # status
     task.status = StatusEnum.PROCESSING
