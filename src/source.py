@@ -20,7 +20,7 @@ class Source(Protocol):
         ...
 
 
-class GeneratorSource(Source):
+class GeneratorSource():
     """
     Источник задач. Генератор
     """
@@ -36,7 +36,7 @@ class GeneratorSource(Source):
         ]
 
 
-class JsonSource(Source):
+class JsonSource():
     """
     Источник задач. Из Json файла
     """
@@ -56,7 +56,7 @@ class JsonSource(Source):
         return [task["payload"] for task in data]
 
 
-class ApiSource(Source):
+class ApiSource():
     """
     Источник задач. Api заглушка
     """
